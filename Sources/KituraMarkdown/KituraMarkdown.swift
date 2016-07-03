@@ -31,7 +31,11 @@ public class KituraMarkdown: TemplateEngine {
     public static func render(from: NSData) -> String {
         guard let htmlBytes = cmark_markdown_to_html(UnsafePointer<Int8>(from.bytes), from.length, 0) else { return "" }
 
+#if os(Linux)
+        let html = String(UTF8String: htmlBytes)
+#else
         let html = String(utf8String: htmlBytes)
+#endif
 
         free(htmlBytes)
 

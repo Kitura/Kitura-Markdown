@@ -15,6 +15,7 @@
  **/
 
 import XCTest
+@testable import KituraMarkdownTestSuite
 
 XCTMain([
 	testCase(BasicTests.allTests)
