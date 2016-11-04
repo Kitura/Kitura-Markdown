@@ -24,26 +24,25 @@ public class KituraMarkdown: TemplateEngine {
     public init() {}
 
     public func render(filePath: String, context: [String: Any]) throws -> String {
-        let md = NSData(contentsOfFile: filePath)
-        return  md != nil ? KituraMarkdown.render(from: md!) : ""
+        let md = try Data(contentsOf: URL(fileURLWithPath: filePath))
+        return  KituraMarkdown.render(from: md)
     }
 
-    public static func render(from: NSData) -> String {
-        guard let htmlBytes = cmark_markdown_to_html(UnsafePointer<Int8>(from.bytes), from.length, 0) else { return "" }
+    public static func render(from: Data) -> String {
+        return from.withUnsafeBytes() { (bytes: UnsafePointer<Int8>) -> String in
+        
+            guard let htmlBytes = cmark_markdown_to_html(bytes, from.count, 0) else { return "" }
 
-#if os(Linux)
-        let html = String(UTF8String: htmlBytes)
-#else
-        let html = String(utf8String: htmlBytes)
-#endif
+            let html = String(utf8String: htmlBytes)
 
-        free(htmlBytes)
+            free(htmlBytes)
 
-        return html ?? ""
+            return html ?? ""
+        }
     }
 
     public static func render(from: String) -> String {
-        let md = from.data(using: NSUTF8StringEncoding)
+        let md = from.data(using: .utf8)
         return  md != nil ? KituraMarkdown.render(from: md!) : ""
     }
 }
