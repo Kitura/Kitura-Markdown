@@ -19,7 +19,7 @@ import PackageDescription
 let package = Package(
     name: "KituraMarkdown",
     dependencies: [
-        .Package(url: "https://github.com/IBM-Swift/Kitura-TemplateEngine.git", majorVersion: 0, minor: 16),
+        .Package(url: "https://github.com/IBM-Swift/Kitura-TemplateEngine.git", majorVersion: 1, minor: 1),
         .Package(url: "https://github.com/IBM-Swift/Ccmark.git", majorVersion: 0, minor: 1)
     ]
 )
