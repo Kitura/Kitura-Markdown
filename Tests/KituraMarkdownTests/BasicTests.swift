@@ -42,7 +42,7 @@ class BasicTests: XCTestCase {
             XCTAssertEqual(html, expected, "Converted HTML wasn't [\(expected)] it was [\(html)]")
         }
         catch let error {
-            XCTFail("Caught an error. The error was of type \(error.dynamicType)")
+            XCTFail("Caught an error. The error was of type \(type(of: error))")
         }
     }
 
@@ -57,7 +57,7 @@ class BasicTests: XCTestCase {
     private func getBaseSourceLocation() -> String {
         let fileName = NSString(string: #file)
         let resourceFilePrefixRange: NSRange
-        let lastSlash = fileName.range(of: "/", options: NSStringCompareOptions.backwardsSearch)
+        let lastSlash = fileName.range(of: "/", options: NSString.CompareOptions.backwards)
         if  lastSlash.location != NSNotFound  {
             resourceFilePrefixRange = NSMakeRange(0, lastSlash.location+1)
         } else {
