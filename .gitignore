@@ -1,0 +1,7 @@
+.build
+build
+.vagrant
+Packages
+*.pkg
+KituraMarkdown.xcodeproj
+*.DS_Store
