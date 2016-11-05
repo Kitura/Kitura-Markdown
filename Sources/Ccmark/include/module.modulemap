@@ -14,16 +14,8 @@
  * limitations under the License.
  **/
 
-import PackageDescription
-
-let package = Package(
-    name: "KituraMarkdown",
-    targets: [
-        Target(name: "KituraMarkdown", dependencies: ["Ccmark"]),
-        Target(name: "Ccmark", dependencies: [])
-    ],
-    dependencies: [
-        .Package(url: "https://github.com/IBM-Swift/Kitura-TemplateEngine.git", majorVersion: 1, minor: 1)
-    ]
-)
-
+module Ccmark {
+    header "../cmark.h"
+    link "Ccmark"
+    export *
+}
