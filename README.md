@@ -14,8 +14,8 @@ Markdown formatted text passed to provided helper functions.
 ## Example
 The following is an example of a server that serves Markdown formatted text from .md files
 under the views/docs directory of the server's repository, as in the following structure:
-<pre>
 
+<pre>
 ServerRepository
 ├── Package.swift
 ├── Sources
