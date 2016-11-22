@@ -40,7 +40,7 @@ router.add(templatingEngine: KituraMarkdown())
 
 // Handle HTTP GET requests to /docs
 router.get("/docs") { request, response, next in
-    if let path = request.parsedUrl.path {
+    if let path = request.parsedURL.path {
         try response.render(path, context: [String:Any]())
         response.status(.OK)
     }
