@@ -23,7 +23,8 @@ ServerRepository
 │       └── main.swift
 └── views
     └── docs
-        └── main.md
+        ├── index.md
+        └── doc1.md
 </pre>
 
 In the main.swift file, there would be the following code:
@@ -36,11 +37,18 @@ import KituraMarkdown
 let router = Router()
 
 // Add KituraMarkdown as a TemplatingEngine
-router.add(templatingEngine: KituraMarkdown())
+router.add(templateEngine: KituraMarkdown())
 
 // Handle HTTP GET requests to /docs
-router.get("/docs") { request, response, next in
-    if let path = request.parsedURL.path {
+router.get("/docs") { _, response, next in
+    try response.render("/docs/index.md", context: [String:Any]())
+    response.status(.OK)
+    next()
+}
+
+// Handle HTTP GET requests to /docs/......
+router.get("/docs/*") { request, response, next in
+    if let path = request.parsedURL.path, path != "/docs/" {
         try response.render(path, context: [String:Any]())
         response.status(.OK)
     }
@@ -54,8 +62,9 @@ Kitura.addHTTPServer(onPort: 8090, with: router)
 Kitura.run()
 ```
 
-If you pointed your browser as http://_hostname_:8090/docs/main.md, the contents of main.md
-you would see the contents of main.md in HTML form.
+If you pointed your browser at http://_hostname_:8090/docs or
+http://_hostname_:8090/docs/dec1.md, you would see the contents of index.md
+or doc1.md, respectively, in HTML form. 
 
 ## License
 This library is licensed under Apache 2.0. Full license text is available in [LICENSE](LICENSE.txt).
