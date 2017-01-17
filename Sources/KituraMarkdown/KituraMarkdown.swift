@@ -50,6 +50,27 @@ public class KituraMarkdown: TemplateEngine {
         return  KituraMarkdown.render(from: md)
     }
 
+    /// Take a template file in Markdown format and generate HTML format content to
+    /// be sent back to the client.
+    ///
+    /// - Parameter filePath: The path of the template file in Markdown format to use
+    ///                      when generating the content.
+    /// - Parameter context: A set of variables in the form of a Dictionary of
+    ///                     Key/Value pairs. **Note:** This parameter is ignored at
+    ///                     this time
+    /// - Parameter pageTemplate: The HTML page template to insert rendered markdown into.
+    ///                     Passing in "default" will insert markdown as a child of <body>
+    ///                     Custom HTML template should indicate location of insertion with
+    ///                     <snippetInsertLocation></snippetInsertLocation> tag.
+    ///
+    /// - Returns: If an Error isn't thrown whenreading the template, a String containing
+    ///            an HTML representation of the text marked up using Markdown.
+    public func render(filePath: String, context: [String: Any], pageTemplate: String) throws -> String {
+        let md = try Data(contentsOf: URL(fileURLWithPath: filePath))
+        let snippet = KituraMarkdown.render(from: md)
+        return  KituraMarkdown.createPage(from: snippet, withTemplate: pageTemplate)
+    }
+
     /// Generate HTML from a Data struct containing text marked up in Markdown in the
     /// form of UTF-8 bytes. 
     ///
@@ -75,5 +96,26 @@ public class KituraMarkdown: TemplateEngine {
     public static func render(from: String) -> String {
         let md = from.data(using: .utf8)
         return  md != nil ? KituraMarkdown.render(from: md!) : ""
+    }
+
+    /// Generate HTML from a String containing text marked up in Markdown.
+    ///
+    /// - Returns: A String containing an HTML representation of the text marked up
+    ///            using Markdown.
+    public static func render(from: String, pageTemplate: String) -> String {
+        let md = from.data(using: .utf8)
+        let snippet = md != nil ? KituraMarkdown.render(from: md!) : ""
+        return  KituraMarkdown.createPage(from: snippet, withTemplate: pageTemplate)
+    }
+
+    /// Wrap markdown
+    private static func createPage(from: String, withTemplate: String) -> String {
+        if(withTemplate == "default") {
+            return "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>Title</title></head><body>\(from)</body></html>"
+        }
+
+        let result = withTemplate.replacingOccurrences(of: "<snippetInsertLocation></snippetInsertLocation>", with: from)
+
+        return (result == withTemplate ? from : result)
     }
 }
