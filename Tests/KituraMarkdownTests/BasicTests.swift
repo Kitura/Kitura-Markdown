@@ -52,23 +52,11 @@ class BasicTests: XCTestCase {
         }
     }
 
-    func testSimpleEmptyStringWithDefaultPageTemplate() {
-        let html = KituraMarkdown.render(from: "")
-        let expected = ""
-        XCTAssertEqual(html, expected, "Converted HTML wasn't [\(expected)] it was [\(html)]")
-    }
-
-    func testSimpleMarkdownStringWithDefaultPageTemplate() {
-        let html = KituraMarkdown.render(from: "1. A\n2. B\n", pageTemplate: "default")
-        let expected = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>Title</title></head><body><ol>\n<li>A</li>\n<li>B</li>\n</ol>\n</body></html>"
-        XCTAssertEqual(html, expected, "Converted HTML wasn't [\(expected)] it was [\(html)]")
-    }
-
     func testSimpleMarkdownFileWithDefaultPageTemplate() {
         let engine = KituraMarkdown()
         let filename = getBaseSourceLocation() + "simple-text.md"
         do {
-            let html = try engine.render(filePath: filename, context: [String:Any](), pageTemplate: "default")
+            let html = try engine.render(filePath: filename, context: [String:Any](), options: ["useTemplate": "default"])
             let expected = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>Title</title></head><body><ul>\n<li>a</li>\n<li>b</li>\n<li>c</li>\n</ul>\n</body></html>"
             XCTAssertEqual(html, expected, "Converted HTML wasn't [\(expected)] it was [\(html)]")
         }
@@ -106,8 +94,6 @@ extension BasicTests {
             ("testSimpleMarkdownString", testSimpleMarkdownString),
              ("testEngineFileExtension", testEngineFileExtension),
              ("testSimpleMarkdownFile", testSimpleMarkdownFile),
-             ("testSimpleEmptyStringWithDefaultPageTemplate", testSimpleEmptyStringWithDefaultPageTemplate),
-             ("testSimpleMarkdownStringWithDefaultPageTemplate", testSimpleMarkdownStringWithDefaultPageTemplate),
              ("testSimpleMarkdownFileWithDefaultPageTemplate", testSimpleMarkdownFileWithDefaultPageTemplate)
              /* ("testSwiftMarkdownString", testSwiftMarkdownString) */
     ]
