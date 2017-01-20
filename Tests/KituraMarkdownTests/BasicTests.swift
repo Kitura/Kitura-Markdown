@@ -68,7 +68,8 @@ class BasicTests: XCTestCase {
         let engine = KituraMarkdown()
         let filename = getBaseSourceLocation() + "simple-text.md"
         do {
-            let html = try engine.render(filePath: filename, context: [String:Any](), pageTemplate: "default")
+            let html = try engine.render(filePath: filename, context: [String:Any](),
+                                         options: MarkdownOptions(pageTemplate: "default"))
             let expected = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>Title</title></head><body><ul>\n<li>a</li>\n<li>b</li>\n<li>c</li>\n</ul>\n</body></html>"
             XCTAssertEqual(html, expected, "Converted HTML wasn't [\(expected)] it was [\(html)]")
         }
@@ -96,7 +97,7 @@ class BasicTests: XCTestCase {
         }
         return fileName.substring(with: resourceFilePrefixRange)
     }
-  
+
 }
 
 extension BasicTests {
