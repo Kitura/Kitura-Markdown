@@ -53,14 +53,14 @@ class BasicTests: XCTestCase {
     }
 
     func testSimpleEmptyStringWithDefaultPageTemplate() {
-        let html = KituraMarkdown.render(from: "")
-        let expected = ""
+        let html = KituraMarkdown.render(from: "", pageTemplate: "default")
+        let expected = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body></body></html>"
         XCTAssertEqual(html, expected, "Converted HTML wasn't [\(expected)] it was [\(html)]")
     }
 
     func testSimpleMarkdownStringWithDefaultPageTemplate() {
         let html = KituraMarkdown.render(from: "1. A\n2. B\n", pageTemplate: "default")
-        let expected = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>Title</title></head><body><ol>\n<li>A</li>\n<li>B</li>\n</ol>\n</body></html>"
+        let expected = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body><ol>\n<li>A</li>\n<li>B</li>\n</ol>\n</body></html>"
         XCTAssertEqual(html, expected, "Converted HTML wasn't [\(expected)] it was [\(html)]")
     }
 
@@ -70,7 +70,34 @@ class BasicTests: XCTestCase {
         do {
             let html = try engine.render(filePath: filename, context: [String:Any](),
                                          options: MarkdownOptions(pageTemplate: "default"))
-            let expected = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>Title</title></head><body><ul>\n<li>a</li>\n<li>b</li>\n<li>c</li>\n</ul>\n</body></html>"
+            let expected = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body><ul>\n<li>a</li>\n<li>b</li>\n<li>c</li>\n</ul>\n</body></html>"
+            XCTAssertEqual(html, expected, "Converted HTML wasn't [\(expected)] it was [\(html)]")
+        }
+        catch let error {
+            XCTFail("Caught an error. The error was of type \(type(of: error))")
+        }
+    }
+
+
+    func testSimpleEmptyStringWithCustomizedPageTemplate() {
+        let html = KituraMarkdown.render(from: "", pageTemplate: "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body><div><snippetInsertLocation></snippetInsertLocation></div></body></html>")
+        let expected = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body><div></div></body></html>"
+        XCTAssertEqual(html, expected, "Converted HTML wasn't [\(expected)] it was [\(html)]")
+    }
+
+    func testSimpleMarkdownStringWithCustomizedPageTemplate() {
+        let html = KituraMarkdown.render(from: "1. A\n2. B\n", pageTemplate: "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body><div><snippetInsertLocation></snippetInsertLocation></div></body></html>")
+        let expected = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body><div><ol>\n<li>A</li>\n<li>B</li>\n</ol>\n</div></body></html>"
+        XCTAssertEqual(html, expected, "Converted HTML wasn't [\(expected)] it was [\(html)]")
+    }
+
+    func testSimpleMarkdownFileWithCustomizedPageTemplate() {
+        let engine = KituraMarkdown()
+        let filename = getBaseSourceLocation() + "simple-text.md"
+        do {
+            let html = try engine.render(filePath: filename, context: [String:Any](),
+                                         options: MarkdownOptions(pageTemplate: "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body><div><snippetInsertLocation></snippetInsertLocation></div></body></html>"))
+            let expected = "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body><div><ul>\n<li>a</li>\n<li>b</li>\n<li>c</li>\n</ul>\n</div></body></html>"
             XCTAssertEqual(html, expected, "Converted HTML wasn't [\(expected)] it was [\(html)]")
         }
         catch let error {
@@ -109,7 +136,10 @@ extension BasicTests {
              ("testSimpleMarkdownFile", testSimpleMarkdownFile),
              ("testSimpleEmptyStringWithDefaultPageTemplate", testSimpleEmptyStringWithDefaultPageTemplate),
              ("testSimpleMarkdownStringWithDefaultPageTemplate", testSimpleMarkdownStringWithDefaultPageTemplate),
-             ("testSimpleMarkdownFileWithDefaultPageTemplate", testSimpleMarkdownFileWithDefaultPageTemplate)
+             ("testSimpleMarkdownFileWithDefaultPageTemplate", testSimpleMarkdownFileWithDefaultPageTemplate),
+             ("testSimpleEmptyStringWithCustomizedPageTemplate", testSimpleEmptyStringWithCustomizedPageTemplate),
+             ("testSimpleMarkdownStringWithCustomizedPageTemplate", testSimpleMarkdownStringWithCustomizedPageTemplate),
+             ("testSimpleMarkdownFileWithCustomizedPageTemplate", testSimpleMarkdownFileWithCustomizedPageTemplate)
              /* ("testSwiftMarkdownString", testSwiftMarkdownString) */
     ]
   }

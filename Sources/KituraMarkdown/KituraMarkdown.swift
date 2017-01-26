@@ -19,8 +19,12 @@ import Foundation
 import Ccmark
 import KituraTemplateEngine
 
-struct MarkdownOptions: RenderingOptions {
+public struct MarkdownOptions: RenderingOptions {
     let pageTemplate: String
+
+    public init(pageTemplate: String) {
+        self.pageTemplate = pageTemplate
+    }
 }
 
 /// An implementation of Kitura's `TemplateEngine` protocol. In particular this templating
@@ -70,7 +74,7 @@ public class KituraMarkdown: TemplateEngine {
         let md = try Data(contentsOf: URL(fileURLWithPath: filePath))
         let snippet = KituraMarkdown.render(from: md)
 
-        if let options = options as? MarkdownOptions {
+        if let options = options as? MarkdownOptions, snippet != "" {
             return KituraMarkdown.createPage(from: snippet, withTemplate: options.pageTemplate)
         }
 
@@ -117,11 +121,11 @@ public class KituraMarkdown: TemplateEngine {
     /// Wrap markdown
     private static func createPage(from: String, withTemplate: String) -> String {
         if(withTemplate == "default") {
-            return "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"><title>Title</title></head><body>\(from)</body></html>"
+            return "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body>\(from)</body></html>"
         }
 
         let result = withTemplate.replacingOccurrences(of: "<snippetInsertLocation></snippetInsertLocation>", with: from)
-
+        
         return (result == withTemplate ? from : result)
     }
 }
