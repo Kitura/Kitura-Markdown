@@ -22,9 +22,9 @@ ServerRepository
 │   └── Server
 │       └── main.swift
 └── views
-    └── docs
-        ├── index.md
-        └── doc1.md
+└── docs
+├── index.md
+└── doc1.md
 </pre>
 
 In the main.swift file, there would be the following code:
@@ -41,18 +41,37 @@ router.add(templateEngine: KituraMarkdown())
 
 // Handle HTTP GET requests to /docs
 router.get("/docs") { _, response, next in
-    try response.render("/docs/index.md", context: [String:Any]())
-    response.status(.OK)
-    next()
+try response.render("/docs/index.md", context: [String:Any]())
+response.status(.OK)
+next()
 }
 
 // Handle HTTP GET requests to /docs/......
 router.get("/docs/*") { request, response, next in
-    if let path = request.parsedURL.path, path != "/docs/" {
-        try response.render(path, context: [String:Any]())
-        response.status(.OK)
-    }
-    next()
+if let path = request.parsedURL.path, path != "/docs/" {
+try response.render(path, context: [String:Any]())
+response.status(.OK)
+}
+next()
+}
+
+// Handle HTTP GET request to /page and wrap the result HTML with a static page template
+// The default template is: <!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body></body></html>
+// Where the markdown code gets inserted in the body
+router.get("/page") { _, response, next in
+let options = MarkdownOptions(pageTemplate: "default")
+try response.render("/docs/index.md", context: [String:Any](), options: options)
+response.status(.OK)
+next()
+}
+
+// Handle HTTP GET request to /custom and wrap the result HTML with a customized static page template
+// Provide a custom template marking the insertion point with <snippetInsertLocation></snippetInsertLocation> tags
+router.get("/custom") { _, response, next in
+let options = MarkdownOptions(pageTemplate: "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body><div><snippetInsertLocation></snippetInsertLocation></div></body></html>")
+try response.render("/docs/index.md", context: [String:Any](), options: options)
+response.status(.OK)
+next()
 }
 
 // Add an HTTP server and connect it to the router
