@@ -8,6 +8,9 @@
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -21,6 +24,12 @@
           KituraMarkdown Docs
         </a>
          (100% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -49,6 +58,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/MarkdownOptions.html">MarkdownOptions</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -64,9 +81,8 @@
               </div>
             <p>An implementation of Kitura&rsquo;s <code>TemplateEngine</code> protocol. In particular this templating
 engine takes files in Markdown (.md) format and converts them to HTML. In addition this
-class has some helper methods for taking Markdown formatted text and converting it to 
+class has some helper methods for taking Markdown formatted text and converting it to
 HTML.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Under the covers this templating engine uses the cmark C language reference
@@ -102,7 +118,7 @@ rendered by a particular templating engine.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">fileExtension</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">fileExtension</span> <span class="o">=</span> <span class="s">"md"</span></code></pre>
 
                         </div>
                       </div>
@@ -149,30 +165,8 @@ rendered by a particular templating engine.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Take a template file in Markdown format and generate HTML format content to 
+                        <p>Take a template file in Markdown format and generate HTML format content to
 be sent back to the client.</p>
-
-<div class="aside aside-parameter">
-    <p class="aside-title">Parameter</p>
-    Parameter filePath: The path of the template file in Markdown format to use
-                 when generating the content.
-
-</div>
-
-<div class="aside aside-parameter">
-    <p class="aside-title">Parameter</p>
-    <p>Parameter context: A set of variables in the form of a Dictionary of
-                Key/Value pairs. <strong>Note:</strong> This parameter is ignored at
-                this time</p>
-
-</div>
-
-<div class="aside aside-returns">
-    <p class="aside-title">Returns</p>
-    <p>If an Error isn&rsquo;t thrown whenreading the template, a String containing
-       an HTML representation of the text marked up using Markdown.</p>
-
-</div>
 
                       </div>
                       <div class="declaration">
@@ -195,8 +189,8 @@ be sent back to the client.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The path of the template file in Markdown format to use when generating the content.</p>
-
+                                  <p>The path of the template file in Markdown format to use
+                 when generating the content.</p>
                                 </div>
                               </td>
                             </tr>
@@ -208,8 +202,9 @@ be sent back to the client.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of variables in the form of a Dictionary of Key/Value pairs.  This parameter is ignored at this time</p>
-
+                                  <p>A set of variables in the form of a Dictionary of
+                Key/Value pairs. <strong>Note:</strong> This parameter is ignored at
+                this time</p>
                                 </div>
                               </td>
                             </tr>
@@ -218,8 +213,88 @@ be sent back to the client.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>If an Error isn’t thrown whenreading the template, a String containing an HTML representation of the text marked up using Markdown.</p>
+                        <p>If an Error isn&rsquo;t thrown when reading the template, a String containing
+       an HTML representation of the text marked up using Markdown.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC14KituraMarkdown14KituraMarkdown6renderFzT8filePathSS7contextGVs10DictionarySSP__7optionsP20KituraTemplateEngine16RenderingOptions__SS"></a>
+                    <a name="//apple_ref/swift/Method/render(filePath:context:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC14KituraMarkdown14KituraMarkdown6renderFzT8filePathSS7contextGVs10DictionarySSP__7optionsP20KituraTemplateEngine16RenderingOptions__SS">render(filePath:context:options:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Take a template file in Markdown format and generate HTML format content to
+be sent back to the client.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">render</span><span class="p">(</span><span class="nv">filePath</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span>
+                       <span class="nv">options</span><span class="p">:</span> <span class="kt">RenderingOptions</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>filePath</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The path of the template file in Markdown format to use
+                 when generating the content.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>context</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of variables in the form of a Dictionary of
+                Key/Value pairs. <strong>Note:</strong> This parameter is ignored at
+                this time</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>markdown options</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>If an Error isn&rsquo;t thrown when reading the template, a String containing
+       an HTML representation of the text marked up using Markdown.</p>
                       </div>
                     </section>
                   </div>
@@ -238,14 +313,7 @@ be sent back to the client.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Generate HTML from a Data struct containing text marked up in Markdown in the
-form of UTF-8 bytes. </p>
-
-<div class="aside aside-returns">
-    <p class="aside-title">Returns</p>
-    A String containing an HTML representation of the text marked up
-       using Markdown.
-
-</div>
+form of UTF-8 bytes.</p>
 
                       </div>
                       <div class="declaration">
@@ -257,9 +325,28 @@ form of UTF-8 bytes. </p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>from</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Data struct containing markdown text in UTF-8</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
-                        <p>A String containing an HTML representation of the text marked up using Markdown.</p>
-
+                        <p>A String containing an HTML representation of the text marked up
+       using Markdown.</p>
                       </div>
                     </section>
                   </div>
@@ -279,13 +366,6 @@ form of UTF-8 bytes. </p>
                       <div class="abstract">
                         <p>Generate HTML from a String containing text marked up in Markdown.</p>
 
-<div class="aside aside-returns">
-    <p class="aside-title">Returns</p>
-    A String containing an HTML representation of the text marked up
-       using Markdown.
-
-</div>
-
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -296,9 +376,91 @@ form of UTF-8 bytes. </p>
                         </div>
                       </div>
                       <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>from</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The String containing markdown text in UTF-8</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
                         <h4>Return Value</h4>
-                        <p>A String containing an HTML representation of the text marked up using Markdown.</p>
+                        <p>A String containing an HTML representation of the text marked up
+       using Markdown.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC14KituraMarkdown14KituraMarkdown6renderFT4fromSS12pageTemplateSS_SS"></a>
+                    <a name="//apple_ref/swift/Method/render(from:pageTemplate:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC14KituraMarkdown14KituraMarkdown6renderFT4fromSS12pageTemplateSS_SS">render(from:pageTemplate:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Generate HTML from a String containing text marked up in Markdown.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">render</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">pageTemplate</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>from</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The String containing markdown in UTF-8</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pageTemplate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The HTML page template used</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A String containing an HTML representation of the text marked up
+       using Markdown.</p>
                       </div>
                     </section>
                   </div>
@@ -311,8 +473,8 @@ form of UTF-8 bytes. </p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2016-11-08)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2017-07-06)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
