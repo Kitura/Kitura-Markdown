@@ -10,7 +10,7 @@ A Templating engine for Kitura that uses Markdown-based templates.
 `Kitura-Markdown` enables a Kitura-based server to serve HTML content generated from Markdown templates (`.md` files). In addition, `Kitura-Markdown` can be be used to generate HTML from Markdown-formatted text passed to provided helper functions.
 
 ## Prerequisites
-Swift 3.1.1 or above
+Swift 4.0  or above
 
 ## Example
 The following is an example of a server that serves Markdown-formatted text from `.md` files
