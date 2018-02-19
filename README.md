@@ -1,90 +1,87 @@
-# Kitura-Markdown
-A Templating engine for Kitura that uses Markdown-based templates.
+<p align="center">
+    <a href="http://kitura.io/">
+        <img src="https://raw.githubusercontent.com/IBM-Swift/Kitura/master/Sources/Kitura/resources/kitura-bird.svg?sanitize=true" height="100" alt="Kitura">
+    </a>
+</p>
 
-[![Build Status - Master](https://travis-ci.org/IBM-Swift/Kitura-Markdown.svg?branch=master)](https://travis-ci.org/IBM-Swift/Kitura-Markdown)
-![macOS](https://img.shields.io/badge/os-macOS-green.svg?style=flat)
-![Linux](https://img.shields.io/badge/os-linux-green.svg?style=flat)
-![Apache 2](https://img.shields.io/badge/license-Apache2-blue.svg?style=flat)
+
+<p align="center">
+    <a href="http://www.kitura.io/">
+        <img src="https://img.shields.io/badge/docs-kitura.io-1FBCE4.svg" alt="Docs">
+    </a>
+    <a href="https://travis-ci.org/IBM-Swift/Kitura-Markdown">
+        <img src="https://travis-ci.org/IBM-Swift/Kitura-Markdown.svg?branch=master" alt="Build Status - Master">
+    </a>
+        <img src="https://img.shields.io/badge/os-Mac%20OS%20X-green.svg?style=flat" alt="Mac OS X">
+        <img src="https://img.shields.io/badge/os-linux-green.svg?style=flat" alt="Linux">
+        <img src="https://img.shields.io/badge/license-Apache2-blue.svg?style=flat" alt="Apache 2">
+    <a href="http://swift-at-ibm-slack.mybluemix.net/">
+        <img src="http://swift-at-ibm-slack.mybluemix.net/badge.svg" alt="Slack Status">
+    </a>
+</p>
+
+# Kitura-Markdown
+A templating engine for Kitura that uses Markdown-based templates.
 
 ## Summary
-`Kitura-Markdown` enables a Kitura-based server to serve HTML content generated from Markdown templates (`.md` files). In addition, `Kitura-Markdown` can be be used to generate HTML from Markdown-formatted text passed to provided helper functions.
+`Kitura-Markdown` enables a [Kitura](https://github.com/IBM-Swift/Kitura) server to serve HTML content generated from Markdown templates (`.md` files).
 
-## Prerequisites
-Swift 4.0  or above
+## Markdown File
+Markdown is a lightweight markup language with plain text formatting syntax.
+
+[Mastering Markdown](https://guides.github.com/features/mastering-markdown/) provides documentation and examples on how to write Markdown files.
+
+By default the Kitura Router will look in the `Views` folder for Markdown files with the extension `.md`.
+
 
 ## Example
-The following is an example of a server that serves Markdown-formatted text from `.md` files
-under the `views`/`docs` directory of the server's repository, as in the following structure:
+The following example takes a server generated using `kitura init` and modifies it to serve Markdown-formatted text from a `.md` file.
+
+The files which will be edited in this example, are as follows:
 
 <pre>
-ServerRepository
+&lt;ServerRepositoryName&gt;
 ├── Package.swift
 ├── Sources
-│   └── Server
-│       └── main.swift
-└── views
-    └── docs
-        ├── index.md
-        └── doc1.md
+│    └── Application
+│         └── Application.swift
+└── Views
+     └── Example.md
 </pre>
 
-In the `main.swift` file, there would be the following code:
+The `Views` folder and `Example.md` file will be created later on, since they are not initialized by `kitura init`.
+
+#### Package.swift
+* Define "https://github.com/IBM-Swift/Kitura-Markdown.git" as a dependency.
+* Add "KituraMarkdown" to the targets for `Application`.
+
+#### Application.swift
+Inside the `Application.swift` file, add the following code to render the `Example.md` template file on the "/docs" route.
 
 ```swift
-import Kitura
 import KituraMarkdown
-
-// Create a new router
-let router = Router()
-
-// Add KituraMarkdown as a TemplatingEngine
-router.add(templateEngine: KituraMarkdown())
-
-// Handle HTTP GET requests to /docs
-router.get("/docs") { _, response, next in
-    try response.render("/docs/index.md", context: [String:Any]())
-    response.status(.OK)
-    next()
-}
-
-// Handle HTTP GET requests to /docs/......
-router.get("/docs/*") { request, response, next in
-    if let path = request.parsedURL.path, path != "/docs/" {
-        try response.render(path, context: [String:Any]())
-        response.status(.OK)
-    }
-    next()
-}
-
-// Handle HTTP GET request to /page and wrap the result HTML with a static page template
-// The default template is: <!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body></body></html>
-// Where the markdown code gets inserted in the body
-router.get("/page") { _, response, next in
-    let options = MarkdownOptions(pageTemplate: "default")
-    try response.render("/docs/index.md", context: [String:Any](), options: options)
-    response.status(.OK)
-    next()
-}
-
-// Handle HTTP GET request to /custom and wrap the result HTML with a customized static page template
-// Provide a custom template marking the insertion point with <snippetInsertLocation></snippetInsertLocation> tags
-router.get("/custom") { _, response, next in
-    let options = MarkdownOptions(pageTemplate: "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body><div><snippetInsertLocation></snippetInsertLocation></div></body></html>")
-    try response.render("/docs/index.md", context: [String:Any](), options: options)
-    response.status(.OK)
-    next()
-}
-
-// Add an HTTP server and connect it to the router
-Kitura.addHTTPServer(onPort: 8090, with: router)
-
-// Start the Kitura runloop (this call never returns)
-Kitura.run()
 ```
 
-If you pointed your browser at http://_hostname_:8090/docs or
-http://_hostname_:8090/docs/dec1.md, you would see the contents of `index.md`
-or `doc1.md`, respectively, in HTML form.
+Add the following code inside the `postInit()` function:
+
+```swift
+router.add(templateEngine: KituraMarkdown())
+router.get("/docs") { _, response, next in
+    try response.render("Example.md", context: [String:Any]())
+    response.status(.OK)
+    next()
+}
+```
+
+#### Example.md
+Create the `Views` folder and put the following Markdown template code into a file called `Example.md`:
+
+```
+It's very easy to make some words **bold** and other words *italic* with Markdown. You can even [link to Kitura](https://github.com/IBM-Swift/Kitura) and write code examples:
+`print("Hello world!")`
+```
+
+When the server is running, go to [http://localhost:8080/docs](http://localhost:8080/docs) to view the rendered Markdown template.
 
 ## License
-This library is licensed under Apache 2.0. Full license text is available in [LICENSE](LICENSE.txt).
+This library is licensed under Apache 2.0. Full license text is available in [LICENSE](https://github.com/IBM-Swift/Kitura-Markdown/blob/master/LICENSE.txt).

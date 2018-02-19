@@ -72,95 +72,87 @@
         <section class="section">
           <div class="section-content">
             
-            <h1 id='kitura-markdown' class='heading'>Kitura-Markdown</h1>
+            <p align="center">
+    <a href="http://kitura.io/">
+        <img src="https://raw.githubusercontent.com/IBM-Swift/Kitura/master/Sources/Kitura/resources/kitura-bird.svg?sanitize=true" height="100" alt="Kitura">
+    </a>
+</p>
 
-<p>A Templating engine for Kitura that uses Markdown-based templates.</p>
+<p align="center">
+    <a href="http://www.kitura.io/">
+        <img src="https://img.shields.io/badge/docs-kitura.io-1FBCE4.svg" alt="Docs">
+    </a>
+    <a href="https://travis-ci.org/IBM-Swift/Kitura-Markdown">
+        <img src="https://travis-ci.org/IBM-Swift/Kitura-Markdown.svg?branch=master" alt="Build Status - Master">
+    </a>
+        <img src="https://img.shields.io/badge/os-Mac%20OS%20X-green.svg?style=flat" alt="Mac OS X">
+        <img src="https://img.shields.io/badge/os-linux-green.svg?style=flat" alt="Linux">
+        <img src="https://img.shields.io/badge/license-Apache2-blue.svg?style=flat" alt="Apache 2">
+    <a href="http://swift-at-ibm-slack.mybluemix.net/">
+        <img src="http://swift-at-ibm-slack.mybluemix.net/badge.svg" alt="Slack Status">
+    </a>
+</p>
+<h1 id='kitura-markdown' class='heading'>Kitura-Markdown</h1>
 
-<p><a href="https://travis-ci.org/IBM-Swift/Kitura-Markdown"><img src="https://travis-ci.org/IBM-Swift/Kitura-Markdown.svg?branch=master" alt="Build Status - Master"></a>
-<img src="https://img.shields.io/badge/os-macOS-green.svg?style=flat" alt="macOS">
-<img src="https://img.shields.io/badge/os-linux-green.svg?style=flat" alt="Linux">
-<img src="https://img.shields.io/badge/license-Apache2-blue.svg?style=flat" alt="Apache 2"></p>
+<p>A templating engine for Kitura that uses Markdown-based templates.</p>
 <h2 id='summary' class='heading'>Summary</h2>
 
-<p><code>Kitura-Markdown</code> enables a Kitura-based server to serve HTML content generated from Markdown templates (<code>.md</code> files). In addition, <code>Kitura-Markdown</code> can be be used to generate HTML from Markdown-formatted text passed to provided helper functions.</p>
-<h2 id='prerequisites' class='heading'>Prerequisites</h2>
+<p><code>Kitura-Markdown</code> enables a <a href="https://github.com/IBM-Swift/Kitura">Kitura</a> server to serve HTML content generated from Markdown templates (<code>.md</code> files).</p>
+<h2 id='markdown-file' class='heading'>Markdown File</h2>
 
-<p>Swift 4.0  or above</p>
+<p>Markdown is a lightweight markup language with plain text formatting syntax.</p>
+
+<p><a href="https://guides.github.com/features/mastering-markdown/">Mastering Markdown</a> provides documentation and examples on how to write markdown files.</p>
+
+<p>By default the Kitura Router will look in the <code>Views</code> folder for Markdown files with the extension <code>.md</code>.</p>
 <h2 id='example' class='heading'>Example</h2>
 
-<p>The following is an example of a server that serves Markdown-formatted text from <code>.md</code> files
-under the <code>views</code>/<code>docs</code> directory of the server&rsquo;s repository, as in the following structure:</p>
+<p>The following example takes a server generated using <code>kitura init</code> and modifies it to serve Markdown-formatted text from a <code>.md</code> file.</p>
+
+<p>The files which will be edited in this example, are as follows:</p>
 
 <pre>
-ServerRepository
+&lt;ServerRepositoryName&gt;
 ├── Package.swift
 ├── Sources
-│   └── Server
-│       └── main.swift
-└── views
-    └── docs
-        ├── index.md
-        └── doc1.md
+│    └── Application
+│         └── Application.swift
+└── Views
+     └── Example.md
 </pre>
 
-<p>In the <code>main.swift</code> file, there would be the following code:</p>
-<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">Kitura</span>
-<span class="kd">import</span> <span class="kt">KituraMarkdown</span>
+<p>The <code>Views</code> folder and <code>Example.md</code> file will be created later on in this example, since they are not initialized by <code>kitura init</code>.</p>
+<h4 id='package-swift' class='heading'>Package.swift</h4>
 
-<span class="c1">// Create a new router</span>
-<span class="k">let</span> <span class="nv">router</span> <span class="o">=</span> <span class="kt">Router</span><span class="p">()</span>
+<ul>
+<li>Define <q>https://github.com/IBM-Swift/Kitura-Markdown.git</q> as a dependency.</li>
+<li>Add <q>KituraMarkdown</q> to the targets for <code>Application</code>.</li>
+</ul>
+<h4 id='application-swift' class='heading'>Application.swift</h4>
 
-<span class="c1">// Add KituraMarkdown as a TemplatingEngine</span>
-<span class="n">router</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">templateEngine</span><span class="p">:</span> <span class="kt">KituraMarkdown</span><span class="p">())</span>
-
-<span class="c1">// Handle HTTP GET requests to /docs</span>
-<span class="n">router</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="s">"/docs"</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">next</span> <span class="k">in</span>
-    <span class="k">try</span> <span class="n">response</span><span class="o">.</span><span class="nf">render</span><span class="p">(</span><span class="s">"/docs/index.md"</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">Any</span><span class="p">]())</span>
-    <span class="n">response</span><span class="o">.</span><span class="nf">status</span><span class="p">(</span><span class="o">.</span><span class="kt">OK</span><span class="p">)</span>
-    <span class="nf">next</span><span class="p">()</span>
-<span class="p">}</span>
-
-<span class="c1">// Handle HTTP GET requests to /docs/......</span>
-<span class="n">router</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="s">"/docs/*"</span><span class="p">)</span> <span class="p">{</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">next</span> <span class="k">in</span>
-    <span class="k">if</span> <span class="k">let</span> <span class="nv">path</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">parsedURL</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">path</span> <span class="o">!=</span> <span class="s">"/docs/"</span> <span class="p">{</span>
-        <span class="k">try</span> <span class="n">response</span><span class="o">.</span><span class="nf">render</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">Any</span><span class="p">]())</span>
-        <span class="n">response</span><span class="o">.</span><span class="nf">status</span><span class="p">(</span><span class="o">.</span><span class="kt">OK</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="nf">next</span><span class="p">()</span>
-<span class="p">}</span>
-
-<span class="c1">// Handle HTTP GET request to /page and wrap the result HTML with a static page template</span>
-<span class="c1">// The default template is: &lt;!DOCTYPE html&gt;&lt;html lang=\"en\"&gt;&lt;head&gt;&lt;meta charset=\"UTF-8\"&gt;&lt;/head&gt;&lt;body&gt;&lt;/body&gt;&lt;/html&gt;</span>
-<span class="c1">// Where the markdown code gets inserted in the body</span>
-<span class="n">router</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="s">"/page"</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">next</span> <span class="k">in</span>
-    <span class="k">let</span> <span class="nv">options</span> <span class="o">=</span> <span class="kt">MarkdownOptions</span><span class="p">(</span><span class="nv">pageTemplate</span><span class="p">:</span> <span class="s">"default"</span><span class="p">)</span>
-    <span class="k">try</span> <span class="n">response</span><span class="o">.</span><span class="nf">render</span><span class="p">(</span><span class="s">"/docs/index.md"</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">Any</span><span class="p">](),</span> <span class="nv">options</span><span class="p">:</span> <span class="n">options</span><span class="p">)</span>
-    <span class="n">response</span><span class="o">.</span><span class="nf">status</span><span class="p">(</span><span class="o">.</span><span class="kt">OK</span><span class="p">)</span>
-    <span class="nf">next</span><span class="p">()</span>
-<span class="p">}</span>
-
-<span class="c1">// Handle HTTP GET request to /custom and wrap the result HTML with a customized static page template</span>
-<span class="c1">// Provide a custom template marking the insertion point with &lt;snippetInsertLocation&gt;&lt;/snippetInsertLocation&gt; tags</span>
-<span class="n">router</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="s">"/custom"</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">next</span> <span class="k">in</span>
-    <span class="k">let</span> <span class="nv">options</span> <span class="o">=</span> <span class="kt">MarkdownOptions</span><span class="p">(</span><span class="nv">pageTemplate</span><span class="p">:</span> <span class="s">"&lt;!DOCTYPE html&gt;&lt;html lang=</span><span class="se">\"</span><span class="s">en</span><span class="se">\"</span><span class="s">&gt;&lt;head&gt;&lt;meta charset=</span><span class="se">\"</span><span class="s">UTF-8</span><span class="se">\"</span><span class="s">&gt;&lt;/head&gt;&lt;body&gt;&lt;div&gt;&lt;snippetInsertLocation&gt;&lt;/snippetInsertLocation&gt;&lt;/div&gt;&lt;/body&gt;&lt;/html&gt;"</span><span class="p">)</span>
-    <span class="k">try</span> <span class="n">response</span><span class="o">.</span><span class="nf">render</span><span class="p">(</span><span class="s">"/docs/index.md"</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">Any</span><span class="p">](),</span> <span class="nv">options</span><span class="p">:</span> <span class="n">options</span><span class="p">)</span>
-    <span class="n">response</span><span class="o">.</span><span class="nf">status</span><span class="p">(</span><span class="o">.</span><span class="kt">OK</span><span class="p">)</span>
-    <span class="nf">next</span><span class="p">()</span>
-<span class="p">}</span>
-
-<span class="c1">// Add an HTTP server and connect it to the router</span>
-<span class="kt">Kitura</span><span class="o">.</span><span class="nf">addHTTPServer</span><span class="p">(</span><span class="nv">onPort</span><span class="p">:</span> <span class="mi">8090</span><span class="p">,</span> <span class="nv">with</span><span class="p">:</span> <span class="n">router</span><span class="p">)</span>
-
-<span class="c1">// Start the Kitura runloop (this call never returns)</span>
-<span class="kt">Kitura</span><span class="o">.</span><span class="nf">run</span><span class="p">()</span>
+<p>Inside the <code>Application.swift</code> file, add the following code to render the <code>Example.md</code> template file on the <q>/docs</q> route.</p>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">KituraMarkdown</span>
 </code></pre>
 
-<p>If you pointed your browser at http://<em>hostname</em>:8090/docs or
-http://<em>hostname</em>:8090/docs/dec1.md, you would see the contents of <code>index.md</code>
-or <code>doc1.md</code>, respectively, in HTML form.</p>
+<p>Add the following code inside the <code>postInit()</code> function:</p>
+<pre class="highlight swift"><code><span class="n">router</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nv">templateEngine</span><span class="p">:</span> <span class="kt">KituraMarkdown</span><span class="p">())</span>
+<span class="n">router</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="s">"/docs"</span><span class="p">)</span> <span class="p">{</span> <span class="n">_</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">next</span> <span class="k">in</span>
+    <span class="k">try</span> <span class="n">response</span><span class="o">.</span><span class="nf">render</span><span class="p">(</span><span class="s">"Example.md"</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">Any</span><span class="p">]())</span>
+    <span class="n">response</span><span class="o">.</span><span class="nf">status</span><span class="p">(</span><span class="o">.</span><span class="kt">OK</span><span class="p">)</span>
+    <span class="nf">next</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre>
+<h4 id='example-md' class='heading'>Example.md</h4>
+
+<p>Create the <code>Views</code> folder and put the following Markdown template code into a file called <code>Example.md</code>:</p>
+<pre class="highlight plaintext"><code>It's very easy to make some words **bold** and other words *italic* with Markdown. You can even [link to Kitura](https://github.com/IBM-Swift/Kitura) and write code examples:
+`print("Hello world!")`
+</code></pre>
+
+<p>When the server is running, go to <a href="http://localhost:8080/docs">http://localhost:8080/docs</a> to view the rendered markdown template.</p>
 <h2 id='license' class='heading'>License</h2>
 
-<p>This library is licensed under Apache 2.0. Full license text is available in <a href="LICENSE.txt">LICENSE</a>.</p>
+<p>This library is licensed under Apache 2.0. Full license text is available in <a href="https://github.com/IBM-Swift/Kitura-Markdown/blob/master/LICENSE.txt">LICENSE</a>.</p>
 
           </div>
         </section>
@@ -169,7 +161,7 @@ or <code>doc1.md</code>, respectively, in HTML form.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2018-02-06)</p>
+      <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2018-02-19)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.4</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
