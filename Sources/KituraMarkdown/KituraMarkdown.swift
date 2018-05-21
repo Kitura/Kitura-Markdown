@@ -62,6 +62,25 @@ public class KituraMarkdown: TemplateEngine {
     public func render(filePath: String, context: [String: Any]) throws -> String {
         return try render(filePath: filePath, context: context, options: NullRenderingOptions())
     }
+    
+    // This function is needed to satisfy TemplateEngine protocol.
+    /// Take a template file in Markdown format and generate HTML format content to
+    /// be sent back to the client.
+    ///
+    /// - Parameter filePath: The path of the template file in Markdown format to use
+    ///                      when generating the content.
+    /// - Parameter with: A value that conforms to Encodable.
+    ///             **Note:** This parameter is ignored at this time.
+    /// - Parameter forKey:  A value used to match the Encodable values to the
+    ///             correct variable in a template file.
+    ///             **Note:** This parameter is ignored at this time.
+    /// - Parameter options: markdown options
+    /// - Returns: If an Error isn't thrown when reading the template, a String containing
+    ///            an HTML representation of the text marked up using Markdown.
+    public func render<T: Encodable>(filePath: String, with: T, forKey: String?, options: RenderingOptions, templateName: String) throws -> String {
+        //Pass through empty context as it's never used
+        return try render(filePath: filePath, context: [:], options: NullRenderingOptions())
+    }
 
     /// Take a template file in Markdown format and generate HTML format content to
     /// be sent back to the client.
