@@ -19,36 +19,76 @@ import Foundation
 import Ccmark
 import KituraTemplateEngine
 
-/// Rendering options for KituraMarkdown
+/**
+ Rendering options for KituraMarkdown, allowing the generated HTML to be wrapped in a
+ page template. The page template should contain
+ `<snippetInsertLocation></snippetInsertLocation>`, which will be substituted with the
+ generated HTML content.
+
+ _Note: If you do not wish to customize the page template, `"default"` can be specified._
+
+ ### Usage Example:
+
+ ```swift
+ let markdownOptions = MarkdownOptions(pageTemplate: "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"UTF-8\"></head><body><div><snippetInsertLocation></snippetInsertLocation></div></body></html>")
+
+ router.add(templateEngine: KituraMarkdown())
+
+ router.get("/docs") { _, response, next in
+     try response.render("Example.md", context: [String:Any](), options: markdownOptions)
+     response.status(.OK)
+     next()
+ }
+ ```
+*/
 public struct MarkdownOptions: RenderingOptions {
     let pageTemplate: String
 
-    /// Constructor
+    /// Create a `MarkdownOptions` that specifies a custom HTML page template, into
+    /// which the generated HTML content will be inserted.
     ///
-    /// - Parameter pageTemplate: String form of page template
+    /// - Parameter pageTemplate: String form of page template.
     public init(pageTemplate: String) {
         self.pageTemplate = pageTemplate
     }
 }
 
-/// An implementation of Kitura's `TemplateEngine` protocol. In particular this templating
-/// engine takes files in Markdown (.md) format and converts them to HTML. In addition this
-/// class has some helper methods for taking Markdown formatted text and converting it to
-/// HTML.
-///
-/// - Note: Under the covers this templating engine uses the cmark C language reference
-///         implementation of Markdown.
+/**
+ A Kitura [`TemplateEngine`](https://ibm-swift.github.io/Kitura-TemplateEngine/Protocols/TemplateEngine.html)
+ that enables a Kitura server to render HTML content generated from Markdown
+ templates (`.md` files).
+
+ This class also provides helper methods for converting Markdown formatted text
+ from a `String` or `Data` to HTML.
+
+ - Note: Under the covers this templating engine uses the [cmark](https://github.com/commonmark/cmark)
+         C language reference implementation of Markdown.
+
+ ### Usage Example:
+
+ ```swift
+ router.add(templateEngine: KituraMarkdown())
+
+ router.get("/docs") { _, response, next in
+     try response.render("Example.md", context: [String:Any]())
+     response.status(.OK)
+     next()
+ }
+ ```
+*/
 public class KituraMarkdown: TemplateEngine {
-    /// The file extension of files in the views directory that will be
-    /// rendered by a particular templating engine.
+    /// The file extension of files that will be rendered by the KituraMarkdown
+    /// template engine. By default, Kitura will search for these in the `./Views/`
+    /// directory, which can be customized by setting the [`router.viewsPath`](https://ibm-swift.github.io/Kitura/Classes/Router.html#/s:6Kitura6RouterC9viewsPathSSvp)
+    /// property.
     public let fileExtension = "md"
 
-    /// Create a `KituraMarkdown` instance
+    /// Create a `KituraMarkdown` instance that can be registered with a Kitura router.
     public init() {}
 
     // This function is needed to satisfy TemplateEngine protocol, it is not possible to
     // statisfy swift protocols by providing default arguments. Otherwise,
-    // render(:filePath:context:options) with default options argument would be used.
+    // `render(:filePath:context:options)` with default options argument would be used.
     /// Take a template file in Markdown format and generate HTML format content to
     /// be sent back to the client.
     ///
@@ -56,9 +96,10 @@ public class KituraMarkdown: TemplateEngine {
     ///                      when generating the content.
     /// - Parameter context: A set of variables in the form of a Dictionary of
     ///                     Key/Value pairs. **Note:** This parameter is ignored at
-    ///                     this time
-    /// - Returns: If an Error isn't thrown when reading the template, a String containing
-    ///            an HTML representation of the text marked up using Markdown.
+    ///                     this time.
+    /// - Returns: A String containing an HTML representation of the text marked up
+    ///            using Markdown.
+    /// - Throws: An error if the template file cannot be read.
     public func render(filePath: String, context: [String: Any]) throws -> String {
         return try render(filePath: filePath, context: context, options: NullRenderingOptions())
     }
@@ -67,6 +108,9 @@ public class KituraMarkdown: TemplateEngine {
     /// Take a template file in Markdown format and generate HTML format content to
     /// be sent back to the client.
     ///
+    /// _Note that rendering of context is not supported at this time, and the `with`
+    /// and `forKey` parameters are currently ignored._
+    ///
     /// - Parameter filePath: The path of the template file in Markdown format to use
     ///                      when generating the content.
     /// - Parameter with: A value that conforms to Encodable.
@@ -74,25 +118,34 @@ public class KituraMarkdown: TemplateEngine {
     /// - Parameter forKey:  A value used to match the Encodable values to the
     ///             correct variable in a template file.
     ///             **Note:** This parameter is ignored at this time.
-    /// - Parameter options: markdown options
-    /// - Returns: If an Error isn't thrown when reading the template, a String containing
-    ///            an HTML representation of the text marked up using Markdown.
+    /// - Parameter options: A `RenderingOptions` used to customize the output. The
+    ///                      HTML page template can be customized by providing an
+    ///                      instance of `MarkdownOptions`.
+    /// - Returns: A String containing an HTML representation of the text marked up
+    ///            using Markdown.
+    /// - Throws: An error if the template file cannot be read.
     public func render<T: Encodable>(filePath: String, with: T, forKey: String?, options: RenderingOptions, templateName: String) throws -> String {
         //Pass through empty context as it's never used
-        return try render(filePath: filePath, context: [:], options: NullRenderingOptions())
+        return try render(filePath: filePath, context: [:], options: options)
     }
 
     /// Take a template file in Markdown format and generate HTML format content to
     /// be sent back to the client.
+    ///
+    /// _Note that rendering of context is not supported at this time, and the
+    /// `context` parameter is currently ignored._
     ///
     /// - Parameter filePath: The path of the template file in Markdown format to use
     ///                      when generating the content.
     /// - Parameter context: A set of variables in the form of a Dictionary of
     ///                     Key/Value pairs. **Note:** This parameter is ignored at
     ///                     this time
-    /// - Parameter options: markdown options
-    /// - Returns: If an Error isn't thrown when reading the template, a String containing
-    ///            an HTML representation of the text marked up using Markdown.
+    /// - Parameter options: A `RenderingOptions` used to customize the output. The
+    ///                      HTML page template can be customized by providing an
+    ///                      instance of `MarkdownOptions`.
+    /// - Returns: A String containing an HTML representation of the text marked up
+    ///            using Markdown.
+    /// - Throws: An error if the template file cannot be read.
     public func render(filePath: String, context: [String: Any],
                        options: RenderingOptions) throws -> String {
         let md = try Data(contentsOf: URL(fileURLWithPath: filePath))
@@ -105,10 +158,10 @@ public class KituraMarkdown: TemplateEngine {
         return snippet
     }
 
-    /// Generate HTML from a Data struct containing text marked up in Markdown in the
-    /// form of UTF-8 bytes.
+    /// Generate HTML content from a Data struct containing text marked up in
+    /// Markdown in the form of UTF-8 bytes.
     ///
-    /// - Parameter from: The Data struct containing markdown text in UTF-8
+    /// - Parameter from: The Data struct containing markdown text in UTF-8.
     /// - Returns: A String containing an HTML representation of the text marked up
     ///            using Markdown.
     public static func render(from: Data) -> String {
@@ -124,9 +177,9 @@ public class KituraMarkdown: TemplateEngine {
         }
     }
 
-    /// Generate HTML from a String containing text marked up in Markdown.
+    /// Generate HTML content from a String containing text marked up in Markdown.
     ///
-    /// - Parameter from: The String containing markdown text in UTF-8
+    /// - Parameter from: The String containing markdown text in UTF-8.
     /// - Returns: A String containing an HTML representation of the text marked up
     ///            using Markdown.
     public static func render(from: String) -> String {
@@ -137,12 +190,18 @@ public class KituraMarkdown: TemplateEngine {
         return KituraMarkdown.render(from: md)
     }
 
-    /// Generate HTML from a String containing text marked up in Markdown.
+    /// Generate an HTML page from a String containing text marked up in Markdown.
     ///
-    /// - Parameter from: The String containing markdown in UTF-8
-    /// - Parameter pageTemplate: The HTML page template used
+    /// - Parameter from: The String containing markdown in UTF-8.
+    /// - Parameter pageTemplate: The HTML page template to use. The page template
+    ///                           should contain `<snippetInsertLocation></snippetInsertLocation>`,
+    ///                           which will be substituted with the generated HTML
+    ///                           content.
+    ///                           _Note: If you do not wish to customize the page
+    ///                           template, `"default"` can be specified._
     /// - Returns: A String containing an HTML representation of the text marked up
-    ///            using Markdown.
+    ///            using Markdown, enclosed in an HTML page corresponding to the
+    ///            `pageTemplate` supplied.
     public static func render(from: String, pageTemplate: String) -> String {
         let snippet = KituraMarkdown.render(from: from)
         return KituraMarkdown.createPage(from: snippet, withTemplate: pageTemplate)
