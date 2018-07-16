@@ -79,8 +79,8 @@
 </p>
 
 <p align="center">
-    <a href="http://www.kitura.io/">
-        <img src="https://img.shields.io/badge/docs-kitura.io-1FBCE4.svg" alt="Docs">
+    <a href="https://ibm-swift.github.io/Kitura-Markdown/index.html">
+        <img src="https://img.shields.io/badge/apidoc-KituraMarkdown-1FBCE4.svg?style=flat" alt="APIDoc">
     </a>
     <a href="https://travis-ci.org/IBM-Swift/Kitura-Markdown">
         <img src="https://travis-ci.org/IBM-Swift/Kitura-Markdown.svg?branch=master" alt="Build Status - Master">
@@ -95,16 +95,24 @@
 <h1 id='kitura-markdown' class='heading'>Kitura-Markdown</h1>
 
 <p>A templating engine for Kitura that uses Markdown-based templates.</p>
-<h2 id='summary' class='heading'>Summary</h2>
 
 <p><code>Kitura-Markdown</code> enables a <a href="https://github.com/IBM-Swift/Kitura">Kitura</a> server to serve HTML content generated from Markdown templates (<code>.md</code> files).</p>
 <h2 id='markdown-file' class='heading'>Markdown File</h2>
 
-<p>Markdown is a lightweight markup language with plain text formatting syntax.</p>
+<p>Markdown is a lightweight markup language with plain text formatting syntax. <a href="https://guides.github.com/features/mastering-markdown/">Mastering Markdown</a> provides documentation and examples on how to write Markdown files. By default the Kitura Router will look in the <code>Views</code> folder for Markdown files with the extension <code>.md</code>.</p>
+<h2 id='usage' class='heading'>Usage</h2>
+<h4 id='add-dependencies' class='heading'>Add dependencies</h4>
 
-<p><a href="https://guides.github.com/features/mastering-markdown/">Mastering Markdown</a> provides documentation and examples on how to write Markdown files.</p>
+<p>Add the <code>Kitura-Markdown</code> package to the dependencies within your application’s <code>Package.swift</code> file. Substitute <code>&quot;x.x.x&quot;</code> with the latest <code>Kitura-Markdown</code> <a href="https://github.com/IBM-Swift/Kitura-Markdown/releases">release</a>.</p>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/IBM-Swift/Kitura-Markdown.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"x.x.x"</span><span class="p">)</span>
+</code></pre>
 
-<p>By default the Kitura Router will look in the <code>Views</code> folder for Markdown files with the extension <code>.md</code>.</p>
+<p>Add <code><a href="Classes/KituraMarkdown.html">KituraMarkdown</a></code> to your target&rsquo;s dependencies:</p>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">target</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"example"</span><span class="p">,</span> <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span><span class="s">"KituraMarkdown"</span><span class="p">]),</span>
+</code></pre>
+<h4 id='import-package' class='heading'>Import package</h4>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">KituraStencil</span>
+</code></pre>
 <h2 id='example' class='heading'>Example</h2>
 
 <p>The following example takes a server generated using <code>kitura init</code> and modifies it to serve Markdown-formatted text from a <code>.md</code> file.</p>
@@ -122,12 +130,9 @@
 </pre>
 
 <p>The <code>Views</code> folder and <code>Example.md</code> file will be created later on, since they are not initialized by <code>kitura init</code>.</p>
-<h4 id='package-swift' class='heading'>Package.swift</h4>
+<h4 id='dependencies' class='heading'>Dependencies</h4>
 
-<ul>
-<li>Define <q>https://github.com/IBM-Swift/Kitura-Markdown.git</q> as a dependency.</li>
-<li>Add <q>KituraMarkdown</q> to the targets for <code>Application</code>.</li>
-</ul>
+<p>Add the dependencies to your Package.swift file (as defined in <a href="#add_dependencies">Add dependencies</a> above).</p>
 <h4 id='application-swift' class='heading'>Application.swift</h4>
 
 <p>Inside the <code>Application.swift</code> file, add the following code to render the <code>Example.md</code> template file on the <q>/docs</q> route.</p>
@@ -150,6 +155,12 @@
 </code></pre>
 
 <p>When the server is running, go to <a href="http://localhost:8080/docs">http://localhost:8080/docs</a> to view the rendered Markdown template.</p>
+<h2 id='api-documentation' class='heading'>API documentation</h2>
+
+<p>For more information visit our <a href="http://ibm-swift.github.io/Kitura-Markdown/">API reference</a>.</p>
+<h2 id='community' class='heading'>Community</h2>
+
+<p>We love to talk server-side Swift, and Kitura. Join our <a href="http://swift-at-ibm-slack.mybluemix.net/">Slack</a> to meet the team!</p>
 <h2 id='license' class='heading'>License</h2>
 
 <p>This library is licensed under Apache 2.0. Full license text is available in <a href="https://github.com/IBM-Swift/Kitura-Markdown/blob/master/LICENSE.txt">LICENSE</a>.</p>
@@ -161,7 +172,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2018-07-03)</p>
+      <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2018-07-16)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
