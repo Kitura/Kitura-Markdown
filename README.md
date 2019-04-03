@@ -47,7 +47,7 @@ Add `KituraMarkdown` to your target's dependencies:
 #### Import package
 
 ```swift
-import KituraStencil
+import KituraMarkdown
 ```
 
 ## Example
