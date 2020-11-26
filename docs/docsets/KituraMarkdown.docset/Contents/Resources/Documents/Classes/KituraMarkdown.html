@@ -33,7 +33,7 @@
       </p>
     
         <p class="header-col header-col--secondary">
-          <a class="header-link" href="https://github.com/IBM-Swift/Kitura-Markdown/">
+          <a class="header-link" href="https://github.com/Kitura/Kitura-Markdown/">
             <img class="header-icon" src="../img/gh.png"/>
             View on GitHub
           </a>
@@ -71,15 +71,16 @@
       <article class="main-content">
 
         <section class="section">
-          <div class="section-content">
+          <div class="section-content top-matter">
             <h1>KituraMarkdown</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">KituraMarkdown</span><span class="p">:</span> <span class="kt">TemplateEngine</span></code></pre>
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">KituraMarkdown</span> <span class="p">:</span> <span class="kt">TemplateEngine</span></code></pre>
 
                 </div>
               </div>
-            <p>A Kitura <a href="https://ibm-swift.github.io/Kitura-TemplateEngine/Protocols/TemplateEngine.html"><code>TemplateEngine</code></a>
+            <p>A Kitura <a href="https://kitura.github.io/Kitura-TemplateEngine/Protocols/TemplateEngine.html"><code>TemplateEngine</code></a>
 that enables a Kitura server to render HTML content generated from Markdown
 templates (<code>.md</code> files).</p>
 
@@ -123,7 +124,7 @@ from a <code>String</code> or <code>Data</code> to HTML.</p>
                       <div class="abstract">
                         <p>The file extension of files that will be rendered by the KituraMarkdown
 template engine. By default, Kitura will search for these in the <code>./Views/</code>
-directory, which can be customized by setting the <a href="https://ibm-swift.github.io/Kitura/Classes/Router.html#/s:6Kitura6RouterC9viewsPathSSvp"><code>router.viewsPath</code></a>
+directory, which can be customized by setting the <a href="https://kitura.github.io/Kitura/Classes/Router.html#/s:6Kitura6RouterC9viewsPathSSvp"><code>router.viewsPath</code></a>
 property.</p>
 
                       </div>
@@ -131,7 +132,7 @@ property.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">fileExtension</span> <span class="o">=</span> <span class="s">"md"</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">fileExtension</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -168,9 +169,9 @@ property.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14KituraMarkdownAAC6renderS2S8filePath_s10DictionaryVySSypG7contexttKF"></a>
+                    <a name="/s:14KituraMarkdownAAC6render8filePath7contextS2S_SDySSypGtKF"></a>
                     <a name="//apple_ref/swift/Method/render(filePath:context:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14KituraMarkdownAAC6renderS2S8filePath_s10DictionaryVySSypG7contexttKF">render(filePath:context:)</a>
+                    <a class="token" href="#/s:14KituraMarkdownAAC6render8filePath7contextS2S_SDySSypGtKF">render(filePath:<wbr>context:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -191,7 +192,7 @@ be sent back to the client.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">render</span><span class="p">(</span><span class="nv">filePath</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">render</span><span class="p">(</span><span class="nv">filePath</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">context</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -240,9 +241,9 @@ be sent back to the client.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14KituraMarkdownAAC6renderS2S8filePath_x4withSSSg6forKey0A14TemplateEngine16RenderingOptions_p7optionsSS12templateNametKs9EncodableRzlF"></a>
+                    <a name="/s:14KituraMarkdownAAC6render8filePath4with6forKey7options12templateNameS2S_xSSSg0A14TemplateEngine16RenderingOptions_pSStKSERzlF"></a>
                     <a name="//apple_ref/swift/Method/render(filePath:with:forKey:options:templateName:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14KituraMarkdownAAC6renderS2S8filePath_x4withSSSg6forKey0A14TemplateEngine16RenderingOptions_p7optionsSS12templateNametKs9EncodableRzlF">render(filePath:with:forKey:options:templateName:)</a>
+                    <a class="token" href="#/s:14KituraMarkdownAAC6render8filePath4with6forKey7options12templateNameS2S_xSSSg0A14TemplateEngine16RenderingOptions_pSStKSERzlF">render(filePath:<wbr>with:<wbr>forKey:<wbr>options:<wbr>templateName:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -266,7 +267,7 @@ and <code>forKey</code> parameters are currently ignored.</em></p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">render</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">:</span> <span class="kt">Encodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">filePath</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">with</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">forKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">RenderingOptions</span><span class="p">,</span> <span class="nv">templateName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">render</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">filePath</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">with</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">forKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">RenderingOptions</span><span class="p">,</span> <span class="nv">templateName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">Encodable</span></code></pre>
 
                         </div>
                       </div>
@@ -342,9 +343,9 @@ and <code>forKey</code> parameters are currently ignored.</em></p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14KituraMarkdownAAC6renderS2S8filePath_s10DictionaryVySSypG7context0A14TemplateEngine16RenderingOptions_p7optionstKF"></a>
+                    <a name="/s:14KituraMarkdownAAC6render8filePath7context7optionsS2S_SDySSypG0A14TemplateEngine16RenderingOptions_ptKF"></a>
                     <a name="//apple_ref/swift/Method/render(filePath:context:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14KituraMarkdownAAC6renderS2S8filePath_s10DictionaryVySSypG7context0A14TemplateEngine16RenderingOptions_p7optionstKF">render(filePath:context:options:)</a>
+                    <a class="token" href="#/s:14KituraMarkdownAAC6render8filePath7context7optionsS2S_SDySSypG0A14TemplateEngine16RenderingOptions_ptKF">render(filePath:<wbr>context:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -432,9 +433,9 @@ be sent back to the client.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14KituraMarkdownAAC6renderSS10Foundation4DataV4from_tFZ"></a>
+                    <a name="/s:14KituraMarkdownAAC6render4fromSS10Foundation4DataV_tFZ"></a>
                     <a name="//apple_ref/swift/Method/render(from:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14KituraMarkdownAAC6renderSS10Foundation4DataV4from_tFZ">render(from:)</a>
+                    <a class="token" href="#/s:14KituraMarkdownAAC6render4fromSS10Foundation4DataV_tFZ">render(from:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -484,9 +485,9 @@ Markdown in the form of UTF-8 bytes.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14KituraMarkdownAAC6renderS2S4from_tFZ"></a>
+                    <a name="/s:14KituraMarkdownAAC6render4fromS2S_tFZ"></a>
                     <a name="//apple_ref/swift/Method/render(from:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14KituraMarkdownAAC6renderS2S4from_tFZ">render(from:)</a>
+                    <a class="token" href="#/s:14KituraMarkdownAAC6render4fromS2S_tFZ">render(from:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -535,9 +536,9 @@ Markdown in the form of UTF-8 bytes.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:14KituraMarkdownAAC6renderS2S4from_SS12pageTemplatetFZ"></a>
+                    <a name="/s:14KituraMarkdownAAC6render4from12pageTemplateS2S_SStFZ"></a>
                     <a name="//apple_ref/swift/Method/render(from:pageTemplate:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:14KituraMarkdownAAC6renderS2S4from_SS12pageTemplatetFZ">render(from:pageTemplate:)</a>
+                    <a class="token" href="#/s:14KituraMarkdownAAC6render4from12pageTemplateS2S_SStFZ">render(from:<wbr>pageTemplate:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -609,8 +610,8 @@ Markdown in the form of UTF-8 bytes.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external">IBM</a>. All rights reserved. (Last updated: 2018-07-16)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external">IBM and the Kitura project contributors</a>. All rights reserved. (Last updated: 2020-11-25)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
