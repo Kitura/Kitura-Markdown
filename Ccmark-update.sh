@@ -2,7 +2,7 @@
 
 # This script updates files in the Ccmark dependency with those from the
 # cmark repository. It automates what was at one point a manual process:
-# https://github.com/IBM-Swift/Kitura-Markdown/blob/c02d3f1f1c5d4be4e90bcce841ae7573995ea6b4/Sources/Ccmark/README.md
+# https://github.com/Kitura/Kitura-Markdown/blob/c02d3f1f1c5d4be4e90bcce841ae7573995ea6b4/Sources/Ccmark/README.md
 
 # Test for existence of cmake
 which cmake > /dev/null

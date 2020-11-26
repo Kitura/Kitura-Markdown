@@ -54,7 +54,7 @@ public struct MarkdownOptions: RenderingOptions {
 }
 
 /**
- A Kitura [`TemplateEngine`](https://ibm-swift.github.io/Kitura-TemplateEngine/Protocols/TemplateEngine.html)
+ A Kitura [`TemplateEngine`](https://kitura.github.io/Kitura-TemplateEngine/Protocols/TemplateEngine.html)
  that enables a Kitura server to render HTML content generated from Markdown
  templates (`.md` files).
 
@@ -79,7 +79,7 @@ public struct MarkdownOptions: RenderingOptions {
 public class KituraMarkdown: TemplateEngine {
     /// The file extension of files that will be rendered by the KituraMarkdown
     /// template engine. By default, Kitura will search for these in the `./Views/`
-    /// directory, which can be customized by setting the [`router.viewsPath`](https://ibm-swift.github.io/Kitura/Classes/Router.html#/s:6Kitura6RouterC9viewsPathSSvp)
+    /// directory, which can be customized by setting the [`router.viewsPath`](https://kitura.github.io/Kitura/Classes/Router.html#/s:6Kitura6RouterC9viewsPathSSvp)
     /// property.
     public let fileExtension = "md"
 
