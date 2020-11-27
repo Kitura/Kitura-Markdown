@@ -1,5 +1,5 @@
 module: KituraMarkdown
-author: IBM and the Kitura project authors
+author: IBM and the Kitura project contributors
 github_url: https://github.com/Kitura/Kitura-Markdown/
 
 theme: fullwidth
@@ -10,6 +10,4 @@ readme: README.md
 
 skip_undocumented: false
 hide_documentation_coverage: false
-
-xcodebuild_arguments: [-project, KituraMarkdown.xcodeproj, -target, KituraMarkdown, LIBRARY_SEARCH_PATHS=.build/debug]
 
